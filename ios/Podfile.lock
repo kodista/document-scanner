@@ -1,0 +1,36 @@
+PODS:
+  - Capacitor (2.4.7):
+    - CapacitorCordova
+  - CapacitorCordova (2.4.7)
+  - IRLDocumentScanner (0.3.1):
+    - IRLDocumentScanner/Default (= 0.3.1)
+    - TOCropViewController (~> 2.3)
+  - IRLDocumentScanner/Default (0.3.1):
+    - TOCropViewController (~> 2.3)
+  - TOCropViewController (2.6.0)
+
+DEPENDENCIES:
+  - "Capacitor (from `../node_modules/@capacitor/ios`)"
+  - "CapacitorCordova (from `../node_modules/@capacitor/ios`)"
+  - IRLDocumentScanner
+
+SPEC REPOS:
+  trunk:
+    - IRLDocumentScanner
+    - TOCropViewController
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../node_modules/@capacitor/ios"
+  CapacitorCordova:
+    :path: "../node_modules/@capacitor/ios"
+
+SPEC CHECKSUMS:
+  Capacitor: 4cd7b342d5a15b1f6f333d687358953afd7b2d8b
+  CapacitorCordova: 2c9d6e28d9d86c4da087fa2c3537c1841954bb12
+  IRLDocumentScanner: 8a110e4bae712036dcd98061d046b1bee497c76d
+  TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
+
+PODFILE CHECKSUM: e14549cb2e89e6d9448a40b30cd97e2c8f2f8f33
+
+COCOAPODS: 1.10.1
