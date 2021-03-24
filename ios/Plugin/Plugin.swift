@@ -13,7 +13,7 @@ public class DocumentScanner: CAPPlugin {
 
     @objc func scan(_ call: CAPPluginCall) {
         let options = self.scanOptions(call: call)
-        self.scanner = Scanner(options: options) { (scanResult) in
+        self.scanner = Scanner(fileStoragePath: bridge.getLocalUrl(), options: options) { (scanResult) in
             self.scanDone(call: call, result: scanResult)
         }
     

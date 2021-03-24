@@ -1,6 +1,7 @@
 import Foundation
 import VisionKit
 import Vision
+import Capacitor
 
 @objc enum ScanResultType: Int {
     case uri
@@ -44,12 +45,26 @@ import Vision
 @objc(Scanner)
 class Scanner: NSObject, VNDocumentCameraViewControllerDelegate {
     
+    var fileStoragePath: String;
     var options: ScanOptions
     var delegate: (ScanResult?) -> Void
+    var imageCounter = 0
     
-    init(options: ScanOptions, delegate: @escaping (ScanResult?) -> Void) {
+    init(fileStoragePath: String, options: ScanOptions, delegate: @escaping (ScanResult?) -> Void) {
+        self.fileStoragePath = fileStoragePath
         self.options = options
         self.delegate = delegate
+    }
+    
+    @objc func saveTemporaryImage(_ data: Data) throws -> String {
+      var url: URL
+      repeat {
+        imageCounter += 1
+        url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("receipt-page-\(imageCounter).jpg")
+      } while FileManager.default.fileExists(atPath: url.absoluteString)
+
+      try data.write(to: url, options: .atomic)
+      return url.absoluteString
     }
     
     @objc func processImages(images: [UIImage]) {
@@ -63,9 +78,16 @@ class Scanner: NSObject, VNDocumentCameraViewControllerDelegate {
             switch self.options.resultType {
                 case .base64:
                     page = Page(base64: imageData.base64EncodedString())
-                    break;
+                    break
                     
                 default:
+                    let path = try! saveTemporaryImage(imageData)
+                    guard let webPath = CAPFileManager.getPortablePath(host: self.fileStoragePath, uri: URL(string: path)) else {
+                        return
+                    }
+                    page = Page(path: webPath)
+                    break
+                    /*
                     do {
                         let fileUrl = self.getTempFilePath()
                         try imageData.write(to:fileUrl)
@@ -73,6 +95,7 @@ class Scanner: NSObject, VNDocumentCameraViewControllerDelegate {
                     } catch {
                         return
                     }
+ */
             }
             
             guard let textRecognitionLanguages = self.options.textRecognitionLanguages else {

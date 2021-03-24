@@ -37,7 +37,7 @@ export interface Page {
    * If using ScanResultType.Uri, the path will contain a full,
    * platform-specific file URL that can be read later using the Filsystem API.
    */
-  path?: string;
+  filePath?: string;
 
   /**
    * The recognised text on the page.
